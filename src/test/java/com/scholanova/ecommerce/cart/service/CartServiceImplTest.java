@@ -54,7 +54,7 @@ class CartServiceImplTest {
     }
 
     @Test
-    public void changeProductQuantity_ShouldChangeQuantity(){
+    public void changeProductQuantity_ShouldChangeQuantity() throws CartException {
         //given
         Cart cart = new Cart();
         Product product = Product.create("tested", "tested", 10.5f, 0.1f, "EUR");
@@ -68,7 +68,6 @@ class CartServiceImplTest {
     }
 
     @Test
-    @Disabled
     public void changeProductQuantity_ShouldHandleExceptions(){
         //given
         Cart cart = new Cart();

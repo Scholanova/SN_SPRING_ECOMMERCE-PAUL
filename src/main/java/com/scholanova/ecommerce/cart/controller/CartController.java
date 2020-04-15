@@ -41,7 +41,7 @@ public class CartController {
     }
 
     @PutMapping("/{cartid}/items/{productId}/quantity")
-    public Cart changeProductQuantity(@PathVariable("cartId") Cart cart, @PathVariable("productId") Long productId, @RequestBody int quantity) {
+    public Cart changeProductQuantity(@PathVariable("cartId") Cart cart, @PathVariable("productId") Long productId, @RequestBody int quantity) throws CartException {
         return cartService.changeProductQuantity(cart, productId, quantity);
     }
 

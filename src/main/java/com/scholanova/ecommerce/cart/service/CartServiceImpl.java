@@ -26,9 +26,14 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public Cart changeProductQuantity(Cart cart, Long productId, int quantity) {
+    public Cart changeProductQuantity(Cart cart, Long productId, int quantity) throws CartException {
         //TODO
-        /*cart.changeProductQuantity(cart.getCartItemByProductName(repository_product.findAllById(productId).get())*/
-        return null;
+        try {
+            cart.changeProductQuantity(cart.getCartItemByProductName(repository_product.findById(productId).get().getName()).getProduct(), quantity);
+            return cart;
+        }catch (Exception e){
+            throw  new CartException("Unable to change a product to the cart");
+        }
+
     }
 }
