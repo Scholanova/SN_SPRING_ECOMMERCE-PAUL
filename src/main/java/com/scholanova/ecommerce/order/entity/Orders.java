@@ -6,6 +6,7 @@ import com.sun.xml.bind.v2.TODO;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Calendar;
 
 @Entity(name="orders")
 public class Orders {
@@ -32,11 +33,12 @@ public class Orders {
     }
 
     public void createOrder(){
-        //TODO
+
     }
 
     public void checkout(){
-        //TODO
+        this.setIssueDate(new Date(Calendar.getInstance().getTime().getTime()));
+        this.setStatus(OrderStatus.PENDING);
     }
 
     public void getDiscount(){

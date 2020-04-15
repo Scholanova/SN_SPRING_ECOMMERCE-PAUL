@@ -14,7 +14,7 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public Cart addProductToCart(Cart cart, Long productId, int quantity) throws CartException {
-        //TODO
+
         try {
             cart.addProduct(repository_product.findById(productId).get(), quantity);
             return cart;
@@ -27,7 +27,7 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public Cart changeProductQuantity(Cart cart, Long productId, int quantity) throws CartException {
-        //TODO
+
         try {
             cart.changeProductQuantity(cart.getCartItemByProductName(repository_product.findById(productId).get().getName()).getProduct(), quantity);
             return cart;
