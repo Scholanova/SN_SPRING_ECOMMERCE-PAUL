@@ -88,4 +88,13 @@ public class Cart {
     public void setOrders(Orders orders) {
         this.orders = orders;
     }
+
+    @JsonProperty("AllQuantity")
+    public int getAllQuantity() {
+        int total = 0;
+        for (CartItem item: cartItems) {
+            total += item.getQuantity();
+        }
+        return total;
+    }
 }

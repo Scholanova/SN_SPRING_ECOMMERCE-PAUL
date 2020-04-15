@@ -2,9 +2,11 @@ package com.scholanova.ecommerce.order.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.scholanova.ecommerce.cart.entity.Cart;
-import com.sun.xml.bind.v2.TODO;
+import com.scholanova.ecommerce.order.exception.IllegalArgException;
+import com.scholanova.ecommerce.order.exception.NotAllowedException;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Calendar;
 
@@ -32,25 +34,53 @@ public class Orders {
     public Orders() {
     }
 
-    public void createOrder(){
+    public static Orders createOrder(String number, Cart cart){
 
+        Orders orders = new Orders();
+        orders.number = number;
+        orders.status = OrderStatus.CREATED;
+        orders.cart = cart;
+        return orders;
     }
 
-    public void checkout(){
-        this.setIssueDate(new Date(Calendar.getInstance().getTime().getTime()));
-        this.setStatus(OrderStatus.PENDING);
+    public void checkout() throws NotAllowedException, IllegalArgException {
+
+        if(this.getCart().getCartItems().size()==0){
+            throw new IllegalArgException("unable ");
+        }
+        if(this.getStatus().equals(OrderStatus.CLOSED)){
+            throw new NotAllowedException("not authorized");
+        }else{
+            this.setStatus(OrderStatus.PENDING);
+            this.setIssueDate(new Date(Calendar.getInstance().getTime().getTime()));
+        }
     }
 
-    public void getDiscount(){
-        //TODO
+    public BigDecimal getDiscount(){
+
+        BigDecimal total = this.getCart().getTotalPrice();
+        if(total.floatValue() < 100f){
+            return new BigDecimal(0);
+        }else {
+            return new BigDecimal(5);
+        }
     }
 
-    public void getOrderPrice(){
-        //TODO
+    public BigDecimal getOrderPrice(){
+
+        BigDecimal valueBeforeDiscount = this.getCart().getTotalPrice();
+
+
+
+        BigDecimal total = valueBeforeDiscount.multiply(new BigDecimal(1).subtract(this.getDiscount().divide(new BigDecimal(100))));
+
+
+        return total;
     }
 
     public void close(){
-        //TODO
+
+        this.status = OrderStatus.CLOSED;
     }
 
 
@@ -80,7 +110,11 @@ public class Orders {
 
     public Cart getCart() {return cart;}
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
+    public void setCart(Cart cart) throws NotAllowedException {
+        if(this.getStatus().equals(OrderStatus.CLOSED)){
+            throw new NotAllowedException("not authorized");
+        }else{
+            this.cart = cart;
+        }
     }
 }
