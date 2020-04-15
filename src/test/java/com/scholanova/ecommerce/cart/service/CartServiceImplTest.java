@@ -7,14 +7,16 @@ import com.scholanova.ecommerce.product.entity.Product;
 import com.scholanova.ecommerce.product.repository.ProductRepository;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 
-@Disabled
+@ExtendWith(MockitoExtension.class)
 class CartServiceImplTest {
 
     @Mock
@@ -22,13 +24,12 @@ class CartServiceImplTest {
     @InjectMocks
     private CartServiceImpl service;
 
-    public CartServiceImplTest(CartServiceImpl service) {
+    /*public CartServiceImplTest(CartServiceImpl service) {
         this.service = service;
-    }
+    }*/
 
     @Test
-    @Disabled
-    public void addProductToCart_ShouldAddTheProductToTheCart() {
+    public void addProductToCart_ShouldAddTheProductToTheCart() throws CartException {
         //given
         Cart cart = new Cart();
         Product product = Product.create("tested", "tested", 10.5f, 0.1f, "EUR");
@@ -41,7 +42,6 @@ class CartServiceImplTest {
     }
 
     @Test
-    @Disabled
     public void addProductToCart_ShouldHandleExceptions() {
         //given
         Cart cart = new Cart();
@@ -54,7 +54,6 @@ class CartServiceImplTest {
     }
 
     @Test
-    @Disabled
     public void changeProductQuantity_ShouldChangeQuantity(){
         //given
         Cart cart = new Cart();
